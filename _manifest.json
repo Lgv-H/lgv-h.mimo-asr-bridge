@@ -18,11 +18,11 @@
   "changelog": "CHANGELOG.md",
   "host_application": {
     "min_version": "1.0.0",
-    "max_version": "1.99.99"
+    "max_version": "999.999.999"
   },
   "sdk": {
     "min_version": "2.0.0",
-    "max_version": "2.99.99"
+    "max_version": "999.999.999"
   },
   "plugin_type": "media",
   "dependencies": [

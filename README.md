@@ -77,16 +77,18 @@ SnowLuma 适配器已经把服务端返回的 silk 转成了 `mp3`。
 
 ### 目录安装
 
-把本目录放到 `<MaiBot>/plugins/` 下（宿主只扫描 `plugins/` 的**直接子目录**），
-目录名随意，插件 ID 取自 `_manifest.json`。
+把本目录放到 `<MaiBot>/plugins/` 下（宿主只扫描 `plugins/` 的**直接子目录**）。
+插件 ID 取自 `_manifest.json`，建议目录名用 `ID` 里的点换成下划线（即
+`lgv-h_mimo-asr-bridge`）—— WebUI 的配置页、README 查看与卸载都按这个规则定位目录。
 
 ### WebUI / 插件市场安装
 
-通过 Git URL 安装本仓库即可，不需要额外服务。
+在插件市场搜索本插件，或通过 Git URL 安装本仓库，不需要额外服务。
 
 ## 配置
 
-默认配置在 `config.toml`，也可以通过 WebUI 插件配置页修改。
+`config.toml` 由 Runner 在首次加载时依据 `plugin.py` 的 `config_model` 生成，
+属于安装实例的运行时配置（仓库里不含它），也可以在 WebUI 插件配置页直接修改。
 
 | 配置项 | 默认值 | 说明 |
 | --- | --- | --- |
@@ -108,6 +110,21 @@ SnowLuma 适配器已经把服务端返回的 silk 转成了 `mp3`。
 
 改完文件宿主会自动调用 `on_config_update()` 应用新配置，不需要重启。
 
+## 使用示例
+
+1. 在 WebUI 插件配置页填好 `[asr].api_key`，把 `[plugin].enabled` 打开（或直接在
+   `config.toml` 里改）；
+2. 让群友发一条语音；
+3. 这条语音在麦麦的上下文里就变成了文字，日志里同时会出现：
+
+```text
+[plugin.lgv-h.mimo-asr-bridge] MiMo ASR 识别成功: format=wav raw_bytes=6444 converted=False elapsed_ms=812 chars=6
+```
+
+写回消息的默认模板是主程序内置的 `[语音: xxx]`；把 `[audio].text_template` 改成
+`{text}` 就只留下纯文本。识别失败时原语音段保持不变，日志里会给出具体原因
+（HTTP 状态码、base64 超限、缺 ffmpeg、silk 解码失败等）。
+
 ## 隐私与安全
 
 - **音频会上传到云端**：语音内容会以 base64 形式发送到 `asr.base_url` 指向的
@@ -127,4 +144,4 @@ SnowLuma 适配器已经把服务端返回的 silk 转成了 `mp3`。
 
 ## 许可证
 
-MIT，完整文本见 [LICENSE](LICENSE)。
+MIT

@@ -76,10 +76,38 @@ class TestManifest(unittest.TestCase):
         )
 
     def test_version_ranges(self):
-        self.assertEqual(MANIFEST["sdk"], {"min_version": "2.0.0", "max_version": "2.99.99"})
+        # 官方要求：不要把上界锁死在小版本（否则麦麦一发新版插件就被挡），
+        # 官方内置插件的做法是放到 999.999.999，只认真约束 min_version
+        self.assertEqual(MANIFEST["sdk"], {"min_version": "2.0.0", "max_version": "999.999.999"})
         self.assertEqual(
-            MANIFEST["host_application"], {"min_version": "1.0.0", "max_version": "1.99.99"}
+            MANIFEST["host_application"], {"min_version": "1.0.0", "max_version": "999.999.999"}
         )
+
+    def test_all_versions_are_strict_semver(self):
+        # 提交清单要求：所有版本号都是三段式
+        self.assertRegex(MANIFEST["version"], r"^\d+\.\d+\.\d+$")
+        for key in ("host_application", "sdk"):
+            for bound in ("min_version", "max_version"):
+                with self.subTest(field=f"{key}.{bound}"):
+                    self.assertRegex(MANIFEST[key][bound], r"^\d+\.\d+\.\d+$")
+
+    def test_id_matches_market_rule(self):
+        # 官方 ID 规则：^[a-z0-9]+(?:[.-][a-z0-9]+)+$
+        self.assertRegex(MANIFEST["id"], r"^[a-z0-9]+(?:[.-][a-z0-9]+)+$")
+
+    def test_repository_url_has_no_git_suffix(self):
+        self.assertFalse(MANIFEST["urls"]["repository"].endswith(".git"))
+
+    def test_market_required_root_files_exist(self):
+        # 插件市场要求仓库根目录必须有这套文件
+        for file_name in ("_manifest.json", "plugin.py", "LICENSE", "README.md"):
+            with self.subTest(file=file_name):
+                self.assertTrue((PLUGIN_DIR / file_name).is_file())
+
+    def test_instance_config_is_gitignored(self):
+        # 官方目录约定：config.toml 是实例配置，仓库里不提交、.gitignore 要忽略
+        gitignore_text = (PLUGIN_DIR / ".gitignore").read_text(encoding="utf-8")
+        self.assertIn("/config.toml", gitignore_text)
 
     def test_i18n_default_locale(self):
         self.assertEqual(MANIFEST["i18n"]["default_locale"], "zh-CN")
