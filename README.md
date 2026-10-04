@@ -117,12 +117,6 @@ SnowLuma 适配器已经把服务端返回的 silk 转成了 `mp3`。
 - **不记录凭据**：日志里只出现鉴权方式（`api-key` / `bearer`），不打印 API Key。
 - **临时文件**：只有 ffmpeg 转码路径会在系统临时目录里落盘，转码结束即随 `TemporaryDirectory` 删除。
 
-### 发布前检查
-
-`config.toml` 是插件的三件套之一，会被一起打包/提交，但它同时是**运行中的用户配置**。
-把它推到公开仓库前，请确认 `[asr].api_key` 已经清空、`[plugin].enabled` 已改回 `false`
-（`.gitignore` 不能忽略这个文件，否则插件装到别人机器上会缺配置模板）。
-
 ## 已知限制
 
 - 只处理入站消息的 voice 段，不做 TTS，也不改写其它类型的消息段。
@@ -130,22 +124,6 @@ SnowLuma 适配器已经把服务端返回的 silk 转成了 `mp3`。
 - 同一消息里其它段的基数二进制（图片、表情）会随 Hook 载荷原样回传，这是宿主 Hook 的既有行为。
 - 宿主的首页卡片目前只渲染装饰器上的静态内容，卡片里的运行时统计只在代码层面可用。
 - 本机没有 ffmpeg 时，非 wav/mp3/silk 的语音会转写失败并在日志里报错，而不是静默降级。
-
-## 开发与测试
-
-测试全部离线，不需要网络，也不会真的调用 MiMo：
-
-```bash
-# 在插件目录下
-python -m unittest discover -s tests -v
-# 或
-python -m pytest tests -v
-```
-
-测试跑的是真实的 `maibot_sdk` 契约（配置校验、装饰器元数据、Hook 载荷），
-环境里没有 `maibot_sdk` 时会整体跳过而不是假装通过。
-
-静态校验（DSH 的 `maibot_plugin_validate`）应保持 0 error。
 
 ## 许可证
 
