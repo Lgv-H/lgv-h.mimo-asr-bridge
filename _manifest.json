@@ -1,0 +1,49 @@
+{
+  "manifest_version": 2,
+  "id": "lgv-h.mimo-asr-bridge",
+  "version": "1.0.0",
+  "name": "MiMo ASR 桥接服务",
+  "description": "在插件内部直接调用小米 MiMo 语音识别 API（Chat Completions + base64 音频），自行完成音频编码与 HTTP 请求，把语音消息转成文字交给 MaiBot",
+  "author": {
+    "name": "Lgv-H",
+    "url": "https://github.com/Lgv-H"
+  },
+  "license": "MIT",
+  "urls": {
+    "repository": "https://github.com/Lgv-H/lgv-h.mimo-asr-bridge",
+    "homepage": "https://github.com/Lgv-H/lgv-h.mimo-asr-bridge",
+    "documentation": "https://github.com/Lgv-H/lgv-h.mimo-asr-bridge/blob/main/README.md",
+    "issues": "https://github.com/Lgv-H/lgv-h.mimo-asr-bridge/issues"
+  },
+  "changelog": "CHANGELOG.md",
+  "host_application": {
+    "min_version": "1.0.0",
+    "max_version": "1.99.99"
+  },
+  "sdk": {
+    "min_version": "2.0.0",
+    "max_version": "2.99.99"
+  },
+  "plugin_type": "media",
+  "dependencies": [
+    {
+      "type": "python_package",
+      "name": "aiohttp",
+      "version_spec": ">=3.9.0"
+    }
+  ],
+  "capabilities": [],
+  "i18n": {
+    "default_locale": "zh-CN",
+    "supported_locales": [
+      "zh-CN"
+    ]
+  },
+  "display": {
+    "icon": {
+      "type": "emoji",
+      "value": "🎧",
+      "background": "#E8F1FD"
+    }
+  }
+}

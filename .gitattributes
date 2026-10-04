@@ -1,0 +1,6 @@
+# 统一按 LF 存储，插件会同时被 Windows / Linux 的宿主克隆
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+*.wav binary
+*.mp3 binary

@@ -1,0 +1,26 @@
+[plugin]
+# 宿主只激活 enabled = true 的插件；这是仓库模板，默认关闭。
+enabled = false
+config_version = "1.0.0"
+
+[asr]
+# 小米 MiMo 开放平台（mimo.mi.com）的 API Key
+api_key = ""
+# Token Plan 用户可改为 https://token-plan-cn.xiaomimimo.com/v1
+base_url = "https://api.xiaomimimo.com/v1"
+model = "mimo-v2.5-asr"
+# api-key 或 bearer
+auth_mode = "api-key"
+# auto / zh / en
+language = "auto"
+timeout_seconds = 45.0
+retry_times = 1
+stream = false
+max_base64_mb = 10.0
+
+[audio]
+# {text} 会被替换成识别结果，必须保留这个占位符
+text_template = "[语音: {text}]"
+remove_placeholder = true
+ffmpeg_path = ""
+ffmpeg_timeout_seconds = 30.0
