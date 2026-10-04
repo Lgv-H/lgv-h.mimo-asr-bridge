@@ -78,8 +78,7 @@ SnowLuma 适配器已经把服务端返回的 silk 转成了 `mp3`。
 ### 目录安装
 
 把本目录放到 `<MaiBot>/plugins/` 下（宿主只扫描 `plugins/` 的**直接子目录**）。
-插件 ID 取自 `_manifest.json`，建议目录名用 `ID` 里的点换成下划线（即
-`lgv-h_mimo-asr-bridge`）—— WebUI 的配置页、README 查看与卸载都按这个规则定位目录。
+插件 ID 取自 `_manifest.json`
 
 ### WebUI / 插件市场安装
 
